@@ -173,3 +173,28 @@ thisTrigger setVariable ["_playerAction", player addAction ["Arsenal", {["Open",
 
 On Deactivation:
 player removeAction (thisTrigger getVariable ["_playerAction", -1])
+```
+
+---
+
+## Add Minefield With Area Markers
+Head over to your mission directory and find the `init.sqf` in that file you place this code:
+```
+null = ["minefield_1",250,"APERSBoundingMine",15,false,false] execVM "AL_mines\alias_mines.sqf";
+```
+#### Parameters:
+`minefield_1` = Marker variable name  
+`250` = Radius of the minefield  
+`APERSBoundingMine` = Type of mines  
+`15` = Numbers of mines  
+`false` = Place on EMPTY markers  
+`false` = Debug
+
+#### Mine Types:
+- APERSMine
+- APERSBoundingMine
+- APERSTripMine
+- ATMine
+- SLAMDirectionalMine
+- Underwatermine
+- UnderwatermineAB
