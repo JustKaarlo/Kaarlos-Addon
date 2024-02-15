@@ -16,4 +16,5 @@ this addaction ["<t color='#FB8B24'>Virtual Garage</t>", {[("marker_spawn")] cal
 > `marker_spawn` = Vehicle Spawn  
 > *I recommend placing a **Helipad (Invisible)** down, then naming it whatever you prefer.*
 
-Now you will need to download 
+Now you will need to go to you mission file and create a `functions` folder after that create a folder called `opec`  
+Now create a file called `fn_garageNew.sqf` copy and paste [this code]() in there.
