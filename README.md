@@ -97,3 +97,35 @@ This code differs from Type 3, just so you're aware.
 
 ---
 
+## Infinite Ammo For Vehicle
+Choose a vehicle and place it down. Then double-click on it and insert this code into the init field:
+```
+this addEventHandler ["Fired",{(_this select 0) setVehicleAmmo 1}]
+```
+
+---
+
+## Disable Negative Rating For Player(s)
+Position a playable unit, double-click on them, and in the init field, input this code:
+```
+this addRating 1e11;
+```
+
+---
+
+### Artillery Ammo Classnames
+- `R_80mm_HE (80mm HE Rocket)`
+- `R_230mm_HE (230mm HE Rocket)`
+- `Sh_155mm_AMOS (155mm HE Shells)`
+- `Sh_82mm_AMOS (82mm HE Shells)`
+- `Mine_155mm_AMOS_range (Mine Cluster)`
+- `AT_Mine_155mm_AMOS_range (AT Mine Cluster)`
+- `Cluster_155mm_AMOS (Cluster Shells)`
+- `Smoke_82mm_AMOS_White (Smoke Shell White)`
+- `Sh_82mm_AMOS_LG (Laser Guided)`
+- `Sh_155mm_AMOS_LG (Laser Guided)`
+- `Sh_82mm_AMOS_guided (Guided)`
+- `Sh_155mm_AMOS_guided (Guided)`
+
+---
+
