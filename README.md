@@ -129,3 +129,12 @@ this addRating 1e11;
 
 ---
 
+## Teleporter
+Okay, place an object, double-click on it, and insert this code into the init field:
+```
+this addAction ["<t color='#FB8B24'>Name</t>",{player setPosATL (getPosATL fob1)}];
+```
+The object where you insert this code is where the player will be able to select teleportation.
+`#FB8B24` = Color of Text
+`Name` = Action Name
+`fob1` = This is the important part: fob1 designates the location where the player will teleport. For instance, place a Land_HelipadEmpty_F and name it fob1. Now, the player will teleport to that exact position if they choose to do so.
