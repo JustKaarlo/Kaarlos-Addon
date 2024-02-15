@@ -138,3 +138,38 @@ The object where you insert this code is where the player will be able to select
 `#FB8B24` = Color of Text
 `Name` = Action Name
 `fob1` = This is the important part: fob1 designates the location where the player will teleport. For instance, place a Land_HelipadEmpty_F and name it fob1. Now, the player will teleport to that exact position if they choose to do so.
+
+---
+
+## ALiVE Multiplayer Respawn Module
+Set variable name of a empty system marker
+*This is where the helicopter spawns*
+```
+"ALiVE_SUP_MULTISPAWN_INSERTION_BLU_F”
+```
+Place code 2 in the empty system marker
+this is where the helicopter lands
+```
+`"ALiVE_SUP_MULTISPAWN_DESTINATION_BLU_F”`
+```
+"BLU_F" = faction name
+
+---
+
+## Place down a flagpole or any object that can hold an flag. Now put this code in the **init** field:
+```
+this setFlagTexture "Picture.jpg"
+```
+
+---
+
+## Arsenal In Trigger Area
+```
+Condition:
+player in thisList
+
+On Activation:
+thisTrigger setVariable ["_playerAction", player addAction ["Arsenal", {["Open", [true]] call BIS_fnc_arsenal;}]];
+
+On Deactivation:
+player removeAction (thisTrigger getVariable ["_playerAction", -1])
