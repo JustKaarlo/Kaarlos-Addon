@@ -1,8 +1,0 @@
-// VIRTUAL GARAGE SCRIPT
-class CfgFunctions {
-	class opec {
-		class opec {
-			class garageNew {};
-		};
-	};
-};
