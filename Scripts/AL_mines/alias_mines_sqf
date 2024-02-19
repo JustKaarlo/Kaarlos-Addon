@@ -1,0 +1,101 @@
+// nul = [] execVM "ambient\alias_mines.sqf";
+
+private ["_al_ied_trigger","_al_show","_al_mine","_IED_blow_trigger","_mark_current","_array_temp","_field_center","_field_radius","_nclass_mines","_number_mines","_marker_mines","_debugs_mines","_nm","_markern","_pos_mine","_markerstr","_count_mark","_array_markers"];
+
+if (!isServer) exitwith {};
+
+_field_center = _this select 0;
+_field_radius = _this select 1;
+_nclass_mines = _this select 2;
+_number_mines = _this select 3;
+_marker_mines = _this select 4;
+_debugs_mines = _this select 5;
+
+_IED_blow_trigger = false;
+
+_store_mine_array = false; // make this true if you want to store mines in array for later use
+
+if ((_nclass_mines=="IEDLandBig_F") or (_nclass_mines=="IEDUrbanBig_F") or (_nclass_mines=="IEDUrbanSmall_F") or (_nclass_mines=="IEDLandSmall_F")) then {
+_IED_blow_trigger = true; //_IED_blow_trigger = "APERSBoundingMine";
+};
+
+if (_marker_mines) then {
+
+_array_markers = [];
+
+{
+	if ((markerType _x == "Empty") and (_x != _field_center) and (((getMarkerPos _x) distance (getMarkerPos _field_center))<=_field_radius)) then {
+	_array_markers pushback _x;
+	};
+} forEach allMapMarkers;
+//hint str _array_markers;
+_count_mark = count _array_markers;
+// ptr plasare precisa pe markere
+if (_count_mark < _number_mines) then {hint "You need the number of markers to be equal or bigger for this to work as supposed to!!!"}
+else {
+	_array_temp = [];
+	if (_count_mark >_number_mines) then {
+		_nm =0;
+//		if (_store_mine_array) then {_al_show = []};
+		_al_show = [];		
+		while {_nm<_number_mines} do {		
+		_mark_current = _array_markers call BIS_fnc_selectRandom;
+		_al_mine=createMine [_nclass_mines, getMarkerPos _mark_current, [], 0];
+		if (_IED_blow_trigger) then {_al_ied_trigger = createMine ["APERSMine", getMarkerPos _mark_current, [], 0]};
+		if ((_store_mine_array)and(_IED_blow_trigger)) then {_al_show pushBack [_al_mine,_al_ied_trigger]} else {_al_show pushBack _al_mine};
+		_array_temp pushback _mark_current;
+		_array_markers = _array_markers - _array_temp;
+		if (_debugs_mines) then {_markern = format[ "markern_%1", str (_nm+1)];	_markerstr = createMarker [_markern,getMarkerPos _mark_current]; _markerstr setMarkerShape "ICON"; _markerstr setMarkerType "hd_dot"; _markerstr setMarkerColor "ColorRed"; hint str (_nm+1);};
+		_nm=_nm+1;
+		sleep 0.01;
+		};		
+		} else {
+// ptr plasare aleator pe markere
+		_nm =0;
+		_jeton_marker = 0;
+		//if (_store_mine_array) then {_al_show = []};
+		_al_show = [];
+		while {_nm<_number_mines} do {		
+		_mark_current = _array_markers select _jeton_marker;
+		_al_mine=createMine [_nclass_mines, getMarkerPos _mark_current, [], 0];
+		if (_IED_blow_trigger) then {_al_ied_trigger = createMine ["APERSMine", getMarkerPos _mark_current, [], 0]};
+		if ((_store_mine_array)and(_IED_blow_trigger)) then {_al_show pushBack [_al_mine,_al_ied_trigger]} else {_al_show pushBack _al_mine};
+		if (_debugs_mines) then {_markern = format[ "markern_%1", str (_nm+1)];	_markerstr = createMarker [_markern,getMarkerPos _mark_current]; _markerstr setMarkerShape "ICON"; _markerstr setMarkerType "hd_dot"; _markerstr setMarkerColor "ColorRed"; hint str (_nm+1);};
+		_nm=_nm+1;
+		_jeton_marker=_jeton_marker+1;
+		sleep 0.01;	
+		};
+	};
+};
+} else {
+// ptr plasare aleator in zona
+	_nm =0;
+//	if (_store_mine_array) then {_al_show =[]};
+	_al_show = [];	
+	while {_nm<_number_mines} do {
+	_pos_mine= [getMarkerPos _field_center,random _field_radius, random 360] call BIS_fnc_relPos;
+	_al_mine = createMine [_nclass_mines, _pos_mine, [], 0];
+	if (_IED_blow_trigger) then {_al_ied_trigger = createMine ["APERSMine", _pos_mine, [], 0]};
+	if ((_store_mine_array)and(_IED_blow_trigger)) then {_al_show pushBack [_al_mine,_al_ied_trigger]} else {_al_show pushBack _al_mine};
+	if (_debugs_mines) then {_markern = format[ "markern_%1", str (_nm+1)];	_markerstr = createMarker [_markern,_pos_mine];	_markerstr setMarkerShape "ICON"; _markerstr setMarkerType "hd_dot"; _markerstr setMarkerColor "ColorRed"; hint str (_nm+1);};
+	_nm=_nm+1;
+	sleep 0.01;
+	};
+};
+
+/* in order to manipulate the mines stored in array you need to place your script that does that here like i did below,
+if you want to use the array in another script you have to make _al_show global or public variable and of course to the array manipulation there
+*/
+
+//hint str _al_show;
+
+
+/*
+sleep 5;
+
+for "_ii" from 0 to 40 do
+{
+	if (_IED_blow_trigger) then {((_al_show select _ii) select 0) setDamage 100} 
+	else {(_al_show select _ii) setDamage 100};
+	sleep 0.1+random 1;
+};
